@@ -117,6 +117,7 @@ To run the app type the following commands:
 python3.11 -m venv venv
 source venv/bin/activate
 pip3.11 install -r requirements.txt
+python3.11 migrations.py
 uvicorn app.main:app --reload
 ```
 
