@@ -20,7 +20,8 @@ def get_event(event_id: int, db: Session = Depends(get_db)):
 
 @router.post("/", response_model=schemas.Event)
 def create_event(event: schemas.EventCreate, db: Session = Depends(get_db)):
-    db_event = models.Event(**event.model_dump())
+    event_data = event.dict()
+    db_event = models.Event(**event_data)
     db.add(db_event)
     db.commit()
     db.refresh(db_event)
@@ -32,7 +33,8 @@ def update_event(event_id: int, event: schemas.EventUpdate, db: Session = Depend
     if db_event is None:
         raise HTTPException(status_code=404, detail="Event not found")
     
-    for key, value in event.model_dump(exclude_unset=True).items():
+    event_data = event.dict(exclude_unset=True)
+    for key, value in event_data.items():
         setattr(db_event, key, value)
     
     db.commit()
