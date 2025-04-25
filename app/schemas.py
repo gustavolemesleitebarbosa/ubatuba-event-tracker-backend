@@ -22,4 +22,4 @@ class Event(EventBase):
     updated_at: Optional[datetime] = None
 
     class Config:
-        from_attributes = True 
+        orm_mode = True 
