@@ -11,5 +11,6 @@ class Event(Base):
     date = Column(DateTime(timezone=True), nullable=False)
     location = Column(String(100), nullable=False)
     image = Column(Text)
+    category = Column(String(50))
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), onupdate=func.now()) 

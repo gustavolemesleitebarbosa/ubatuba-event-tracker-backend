@@ -8,6 +8,7 @@ class EventBase(BaseModel):
     date: datetime
     location: str = Field(..., min_length=1, max_length=100)
     image: Optional[str] = None
+    category: Optional[str] = Field(None, max_length=50)
 
 class EventCreate(EventBase):
     pass
@@ -17,6 +18,7 @@ class EventUpdate(EventBase):
     date: Optional[datetime] = None
     location: Optional[str] = Field(None, min_length=1, max_length=100)
     image: Optional[str] = None
+    category: Optional[str] = Field(None, max_length=50)
 
 class Event(EventBase):
     id: int
