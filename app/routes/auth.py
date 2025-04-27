@@ -1,9 +1,8 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
-from datetime import timedelta
 from .. import models, schemas
 from ..database import get_db
-from ..auth.utils import verify_password, get_password_hash, create_access_token, ACCESS_TOKEN_EXPIRE_MINUTES
+from ..auth.utils import verify_password, get_password_hash, create_access_token
 
 router = APIRouter(prefix="/auth", tags=["authentication"])
 
@@ -24,10 +23,7 @@ def signup(user: schemas.UserCreate, db: Session = Depends(get_db)):
         db.commit()
         db.refresh(db_user)
         
-        access_token = create_access_token(
-            data={"sub": user.email},
-            expires_delta=timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
-        )
+        access_token = create_access_token({"sub": user.email})
         return {"access_token": access_token, "token_type": "bearer"}
     except Exception as e:
         db.rollback()
@@ -45,8 +41,5 @@ def login(user_credentials: schemas.UserLogin, db: Session = Depends(get_db)):
             detail="Incorrect email or password"
         )
     
-    access_token = create_access_token(
-        data={"sub": user.email},
-        expires_delta=timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
-    )
+    access_token = create_access_token({"sub": user.email})
     return {"access_token": access_token, "token_type": "bearer"} 

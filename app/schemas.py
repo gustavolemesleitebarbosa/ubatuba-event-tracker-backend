@@ -29,12 +29,20 @@ class Event(EventBase):
         orm_mode = True
 
 class UserCreate(BaseModel):
-    email: str = Field(..., min_length=5, max_length=100)
-    password: str = Field(..., min_length=6)
+    email: str = Field(..., min_length=5, max_length=100, description="Email address")
+    password: str = Field(
+        ..., 
+        min_length=6, 
+        description="Password must be at least 6 characters long"
+    )
 
 class UserLogin(BaseModel):
-    email: str
-    password: str
+    email: str = Field(..., min_length=5, max_length=100, description="Email address")
+    password: str = Field(
+        ..., 
+        min_length=6, 
+        description="Password must be at least 6 characters long"
+    )
 
 class Token(BaseModel):
     access_token: str
