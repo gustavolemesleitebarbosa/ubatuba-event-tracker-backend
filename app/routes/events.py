@@ -3,13 +3,18 @@ from sqlalchemy.orm import Session
 from typing import List
 from .. import models, schemas
 from ..database import get_db
+import time
 
 router = APIRouter(prefix="/events", tags=["events"])
 
 @router.get("/", response_model=List[schemas.Event])
 def get_events(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
+    db_start_time = time.time()
     events = db.query(models.Event).offset(skip).limit(limit).all()
+    db_query_time = time.time() - db_start_time
+    print(f"Database query took {db_query_time:.4f} seconds")
     return events
+
 
 @router.get("/{event_id}", response_model=schemas.Event)
 def get_event(event_id: int, db: Session = Depends(get_db)):

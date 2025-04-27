@@ -2,6 +2,8 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from .routes import events
 from .database import engine, Base
+import time
+from fastapi import Request
 
 # Create database tables
 Base.metadata.create_all(bind=engine)
@@ -19,5 +21,19 @@ app.add_middleware(
     allow_methods=["*"], 
     allow_headers=["*"],
 )
+
+@app.middleware("http")
+async def log_request_time(request: Request, call_next):
+    start_time = time.time()
+    
+    response = await call_next(request)  # Process the request
+
+    process_time = time.time() - start_time
+    print(f"{request.method} {request.url.path} completed in {process_time:.4f} seconds")
+
+    # OPTIONAL: you can also add the process time into the response headers
+    response.headers["X-Process-Time"] = str(process_time)
+    
+    return response
 
 app.include_router(events.router) 
