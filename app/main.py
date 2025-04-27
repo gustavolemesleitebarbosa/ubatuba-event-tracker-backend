@@ -1,9 +1,10 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
 from .routes import events
 from .database import engine, Base
 import time
-from fastapi import Request
+from .errors import EventError
 
 # Create database tables
 Base.metadata.create_all(bind=engine)
@@ -35,5 +36,18 @@ async def log_request_time(request: Request, call_next):
     response.headers["X-Process-Time"] = str(process_time)
     
     return response
+
+@app.exception_handler(EventError)
+async def event_error_handler(request: Request, exc: EventError):
+    return JSONResponse(
+        status_code=exc.status_code,
+        content={
+            "error": {
+                "code": exc.error_code,
+                "message": exc.detail,
+                "details": exc.additional_info
+            }
+        }
+    )
 
 app.include_router(events.router) 
