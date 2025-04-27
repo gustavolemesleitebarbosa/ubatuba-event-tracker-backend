@@ -6,8 +6,10 @@ from sqlalchemy.orm import Session
 from ..database import get_db
 from .. import models
 from ..errors import UnauthorizedError
+import os
 
-SECRET_KEY = "your-secret-key-keep-it-secret" 
+SECRET_KEY = os.environ.get("SECRET_KEY")
+SECRET_KEY = os.getenv("SECRET_TOKEN_GENERATE_KEY")
 ALGORITHM = "HS256"
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
