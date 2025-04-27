@@ -1,7 +1,7 @@
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
-from .routes import events
+from .routes import events, auth
 from .database import engine, Base
 import time
 from .errors import EventError
@@ -50,4 +50,5 @@ async def event_error_handler(request: Request, exc: EventError):
         }
     )
 
-app.include_router(events.router) 
+app.include_router(events.router)
+app.include_router(auth.router) 

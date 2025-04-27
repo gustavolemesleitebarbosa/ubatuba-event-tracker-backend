@@ -45,4 +45,13 @@ class ServiceUnavailableError(EventError):
             status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
             detail=detail,
             error_code="SERVICE_UNAVAILABLE"
+        )
+
+class UnauthorizedError(EventError):
+    def __init__(self, detail: str = "Not authenticated"):
+        super().__init__(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail=detail,
+            error_code="UNAUTHORIZED",
+            headers={"WWW-Authenticate": "Bearer"}
         ) 
