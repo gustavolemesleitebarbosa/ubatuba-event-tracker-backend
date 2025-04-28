@@ -64,11 +64,17 @@ pyenv local 3.11.9
 
 ## API Endpoints
 
+### Public Endpoints
 - `GET /events`: Retrieve all events
 - `GET /events/{id}`: Retrieve specific event details
+- `POST /auth/login`: Login with email and password
+- `POST /auth/signup`: Create new user account
+
+### Protected Endpoints (Requires Authentication)
 - `POST /events`: Create a new event
 - `PUT /events/{id}`: Update an existing event
 - `DELETE /events/{id}`: Delete an event
+
 
 ## Features
 
