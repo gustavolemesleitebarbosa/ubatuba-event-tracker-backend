@@ -258,4 +258,44 @@ The API will be available at:
 - **Method**: `DELETE`
 - **Authentication**: Required
 
+### Test Structure
+
+The test suite uses pytest and includes:
+
+1. **Authentication Tests**
+   - Signup validation
+   - Login authentication
+   - Token validation
+   - Password security
+
+2. **Event Tests**
+   - CRUD operations
+   - Authorization checks
+   - Input validation
+   - Error handling
+
+### Test Database
+
+Tests use SQLite as the database backend instead of PostgreSQL for:
+- Faster execution
+- No external dependencies
+- Isolated test environment
+
+### Test Coverage
+
+Key areas covered by tests:
+- Route handlers
+- Authentication middleware
+- Database operations
+- Error handling
+- Input validation
+- Token management
+
+to run the tests execute:
+
+```bash
+ pytest tests/ -v
+```
+
+
 
