@@ -6,7 +6,7 @@ from ..auth.utils import verify_password, get_password_hash, create_access_token
 
 router = APIRouter(prefix="/auth", tags=["authentication"])
 
-@router.post("/signup", response_model=schemas.Token)
+@router.post("/signup", response_model=schemas.Token, status_code=status.HTTP_201_CREATED)
 def signup(user: schemas.UserCreate, db: Session = Depends(get_db)):
     db_user = db.query(models.User).filter(models.User.email == user.email).first()
     if db_user:
